@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 8000;
 
 app.use(express.json())
 app.use(cookieParser())
-app.use('/users/userRoutes')
+app.use('/customers', userRoutes)
 app.listen(PORT, ()=> {
     console.log(`Server started on port ${PORT}`);
 });

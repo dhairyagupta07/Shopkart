@@ -7,35 +7,36 @@ const cookieOptions = {
 }
 
 export const registerUser = async(req, res) => {
-    const {name, username, email, password} = req.body
+    const {fullName, email, password, phone} = req.body
 
     try{
-        if(!username || !name || !password || !email){
-            return res.status(422).json({message: 'All fields required'})
-        }
-        const user = await User.findOne({username})
-        if(user){
-            return res.status(400).json({message: 'username already exists'})
+        if(!fullName || !password || !email || !phone){
+            return res.status(400).json({message: 'All fields required'})
         }
         const emailExists = await User.findOne({email});
         if(emailExists){
-            return res.status(400).json({message: 'email already exists'})
+            return res.status(409).json({success: false, message: 'Email already exists'})
         }
         if(password.length < 6){
-            return res.status(400).json({message: 'password length should be greater than or Equal to 6'})
+            return res.status(400).json({success: false, message: 'password length should be greater than or Equal to 6'})
         }
-        const salt = await bcrypt.genSalt(10);
 
-        const hashedPassword = bcrypt.hashSync(password, 10);
-        const newUser = await User.create({username, name, password: hashedPassword, email})
+        const hashedPassword = bcrypt.hash(password, 10);
+        const newUser = await User.create({fullName, email, password: hashedPassword, phone})
 
-        // JWT
-        const token = genToken(newUser._id)
-        res.cookie('token', token, cookieOptions)
-
-        res.status(201).json(newUser)
-    }catch{
-        res.status(500).json({message: 'Internal Server Error'})
+        return res.status(201).json({
+            success: true,
+            message: "Customer registered successfully",
+            customer:{
+                _id: newUser._id,
+                fullName: newUser.fullName,
+                email: newUser.email,
+                phone: newUser.phone
+            }
+        })
+    }catch(err){
+        console.log(err)
+        res.status(500).json({success: false, message: 'Internal Server Error'})
     }
 }
 
@@ -43,28 +44,47 @@ export const loginUser = async(req, res) => {
     try{
         const {email, password} = req.body
         if(!email || !password){
-            return res.status(422).json({message: 'All fields required'})
+            return res.status(400).json({success: false, message: 'All fields required'})
         }
 
         const userExists = await User.findOne({email})
-        if(!userExists){
-            return res.status(404).json({message: 'User not found'})
+        if (!userExists) {
+            return res.status(401).json({success: false,message: "Invalid email or password"})
         }
-
-        const correctPassword = bcrypt.compareSync(password, userExists.password);
+        const correctPassword = await bcrypt.compare(password, userExists.password);
         if(!correctPassword){
-            return res.status(401).json({message: 'User not found'})
+            return res.status(401).json({success: false, message: 'Invalid email or password'})
         }
 
-        const tokenn = genToken(userExists._id)
+        const token = genToken(userExists._id)
         res.cookie('token', token, cookieOptions)
 
-        res.status(200).json({message: 'Login Successful', user: userExists})
+        res.status(200).json({
+            success: true,
+            message: 'Login Successful',
+            customer: {
+                _id: userExists._id,
+                fullName: userExists.fullName,
+                email: userExists.email,
+                phone: userExists.phone
+            }
+        })
     }catch(err){
-        return res.status(500).json({message: 'Internal Server Error'})
+        console.log(err);
+        return res.status(500).json({success: false, message: 'Internal Server Error'})
     }
 }
 
 export const getUser = (req, res) =>{
-    res.status(200).json(req.user)
+    return res.status(200).json({
+        _id: req.user._id,
+        fullName: req.user.fullName,
+        email: req.user.email,
+        phone: req.user.phone
+    })
+}
+
+export const logoutUser = (req, res) => {
+    res.clearCookie('token', cookieOptions);
+    return res.status(200).json({success: true, message: 'Logged Out successfully'})
 }
