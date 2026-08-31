@@ -88,3 +88,53 @@ export const logoutUser = (req, res) => {
     res.clearCookie('token', cookieOptions);
     return res.status(200).json({success: true, message: 'Logged Out successfully'})
 }
+
+export const changePassword = async (req, res) => {
+    try {
+        const {oldPassword, newPassword } = req.body;
+
+        if (!oldPassword || !newPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "Old password and new password are required"
+            });
+        }
+
+        if (newPassword.length < 6) {
+            return res.status(400).json({
+                success: false,
+                message: "New password must contain at least 6 characters"
+            });
+        }
+
+        const correctPassword = await bcrypt.compare(
+            oldPassword,
+            req.user.password
+        );
+
+        if (!correctPassword) {
+            return res.status(401).json({
+                success: false,
+                message: "Incorrect old password"
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        req.user.password = hashedPassword;
+        await req.user.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Password changed successfully"
+        });
+
+    } catch (err) {
+        console.log(err);
+
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        });
+    }
+};
