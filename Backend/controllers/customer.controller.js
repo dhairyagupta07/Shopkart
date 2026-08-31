@@ -21,7 +21,7 @@ export const registerUser = async(req, res) => {
             return res.status(400).json({success: false, message: 'password length should be greater than or Equal to 6'})
         }
 
-        const hashedPassword = bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await User.create({fullName, email, password: hashedPassword, phone})
 
         return res.status(201).json({
