@@ -59,21 +59,27 @@ function Register() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
+        <div className="auth-layout">
+            <aside className="auth-aside">
+                <div className="brand">ShopKart<span style={{ color: "var(--coral)" }}>.</span></div>
+                <div className="aside-copy"><div className="eyebrow">A little more you</div><h2>Make room for the good stuff.</h2><p>Join a community that shops with intention.</p></div>
+            </aside>
+            <main className="auth-main">
             <form
                 onSubmit={handleSubmit}
-                className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg"
+                className="auth-card auth-form"
             >
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                <div className="eyebrow">New member</div>
+                <h1>
                     Create Account
                 </h1>
 
-                <p className="text-gray-500 mb-6">
+                <p className="intro">
                     Join ShopKart today
                 </p>
 
                 {error && (
-                    <div className="bg-red-100 text-red-600 px-4 py-3 rounded-lg mb-4">
+                    <div className="form-error">
                         {error}
                     </div>
                 )}
@@ -84,7 +90,7 @@ function Register() {
                     placeholder="Full Name"
                     value={formData.fullName}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 mb-4 outline-none focus:ring-2 focus:ring-blue-500"
+                    className="field-input"
                 />
 
                 <input
@@ -93,7 +99,7 @@ function Register() {
                     placeholder="Email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 mb-4 outline-none focus:ring-2 focus:ring-blue-500"
+                    className="field-input"
                 />
 
                 <input
@@ -102,7 +108,7 @@ function Register() {
                     placeholder="Password"
                     value={formData.password}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 mb-4 outline-none focus:ring-2 focus:ring-blue-500"
+                    className="field-input"
                 />
 
                 <input
@@ -111,27 +117,28 @@ function Register() {
                     placeholder="Phone Number"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 mb-5 outline-none focus:ring-2 focus:ring-blue-500"
+                    className="field-input"
                 />
 
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-black text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition disabled:opacity-50"
+                    className="primary-button"
                 >
                     {loading ? "Creating Account..." : "Create Account"}
                 </button>
 
-                <p className="text-center text-gray-500 mt-6">
+                <p className="form-switch">
                     Already have an account?{" "}
                     <span
-                        className="text-blue-600 cursor-pointer hover:underline"
+                        className="text-link"
                         onClick={() => navigate("/login")}
                     >
                         Login
                     </span>
                 </p>
             </form>
+            </main>
         </div>
     );
 }

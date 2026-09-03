@@ -36,7 +36,7 @@ function Login() {
             await api.post("/customers/login", formData);
 
             navigate("/home");
-        } catch (err) {
+        } catch {
             setError("Invalid Credentials");
         } finally {
             setLoading(false);
@@ -44,61 +44,49 @@ function Login() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
-            <form
-                onSubmit={handleSubmit}
-                className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg"
-            >
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                    Welcome Back
-                </h1>
+        <div className="auth-layout">
+            <aside className="auth-aside">
+                <div className="brand">ShopKart<span style={{ color: "var(--coral)" }}>.</span></div>
+                <div className="aside-copy"><div className="eyebrow">Everyday, better</div><h2>Good things are worth coming back to.</h2><p>A calmer way to keep track of the things you love.</p></div>
+            </aside>
+            <main className="auth-main">
+            <form onSubmit={handleSubmit} className="auth-card auth-form">
+                <div className="eyebrow">Member sign in</div>
+                <h1>Welcome back</h1>
 
-                <p className="text-gray-500 mb-6">
+                <p className="intro">
                     Login to your ShopKart account
                 </p>
 
                 {error && (
-                    <div className="bg-red-100 text-red-600 px-4 py-3 rounded-lg mb-4">
+                    <div className="form-error">
                         {error}
                     </div>
                 )}
 
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 mb-4 outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                <div className="field"><label htmlFor="login-email">Email address</label><input id="login-email" type="email" name="email" placeholder="you@example.com" value={formData.email} onChange={handleChange} /></div>
 
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 mb-5 outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                <div className="field"><label htmlFor="login-password">Password</label><input id="login-password" type="password" name="password" placeholder="Enter your password" value={formData.password} onChange={handleChange} /></div>
 
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-black text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition disabled:opacity-50"
+                    className="primary-button"
                 >
                     {loading ? "Logging in..." : "Login"}
                 </button>
 
-                <p className="text-center text-gray-500 mt-6">
+                <p className="form-switch">
                     Don't have an account?{" "}
                     <span
-                        className="text-blue-600 cursor-pointer hover:underline"
+                        className="text-link"
                         onClick={() => navigate("/register")}
                     >
                         Create Account
                     </span>
                 </p>
             </form>
+            </main>
         </div>
     );
 }

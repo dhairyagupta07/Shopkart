@@ -5,7 +5,6 @@ import Navbar from "../components/Navbar";
 
 function Home() {
     const navigate = useNavigate();
-
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -13,9 +12,8 @@ function Home() {
         const fetchUser = async () => {
             try {
                 const response = await api.get("/customers/me");
-
                 setUser(response.data);
-            } catch (err) {
+            } catch {
                 navigate("/login");
             } finally {
                 setLoading(false);
@@ -26,76 +24,33 @@ function Home() {
     }, [navigate]);
 
     if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-100">
-                <p className="text-lg text-gray-600">
-                    Loading...
-                </p>
-            </div>
-        );
+        return <div className="page-shell loading-state"><p>Loading your space...</p></div>;
     }
 
-    if (!user) {
-        return null;
-    }
+    if (!user) return null;
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="page-shell">
             <Navbar />
-
-            <main className="max-w-4xl mx-auto px-4 py-12">
-
-                <div className="mb-8">
-                    <h1 className="text-4xl font-bold text-gray-900">
-                        Welcome, {user.fullName}!
-                    </h1>
-
-                    <p className="text-gray-500 mt-2">
-                        Welcome to your ShopKart account.
-                    </p>
+            <main className="dashboard">
+                <div className="dashboard-heading">
+                    <div className="eyebrow">Your space</div>
+                    <h1>Welcome, {user.fullName}.</h1>
+                    <p>Welcome to your ShopKart account.</p>
                 </div>
-
-                <div className="bg-white rounded-2xl shadow-lg p-8">
-
-                    <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-                        Your Profile
-                    </h2>
-
-                    <div className="space-y-4">
-
-                        <div>
-                            <p className="text-sm text-gray-500">
-                                Name
-                            </p>
-
-                            <p className="text-lg font-medium text-gray-900">
-                                {user.fullName}
-                            </p>
-                        </div>
-
-                        <div>
-                            <p className="text-sm text-gray-500">
-                                Email
-                            </p>
-
-                            <p className="text-lg font-medium text-gray-900">
-                                {user.email}
-                            </p>
-                        </div>
-
-                        <div>
-                            <p className="text-sm text-gray-500">
-                                Phone
-                            </p>
-
-                            <p className="text-lg font-medium text-gray-900">
-                                {user.phone}
-                            </p>
-                        </div>
-
-                    </div>
+                <div className="profile-panel">
+                    <section className="profile-intro">
+                        <div className="avatar">{user.fullName.charAt(0).toUpperCase()}</div>
+                        <h2>Your profile</h2>
+                        <p>Your ShopKart details, all in one place.</p>
+                    </section>
+                    <section className="profile-details">
+                        <h3>Account details</h3>
+                        <div className="detail-row"><span>Name</span><strong>{user.fullName}</strong></div>
+                        <div className="detail-row"><span>Email</span><strong>{user.email}</strong></div>
+                        <div className="detail-row"><span>Phone</span><strong>{user.phone}</strong></div>
+                    </section>
                 </div>
-
             </main>
         </div>
     );
