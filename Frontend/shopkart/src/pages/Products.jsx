@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Navbar from "../components/Navbar";
 import ProductCard from "../components/ProductCard";
 import api from "../services/api";
 
@@ -35,70 +36,67 @@ const Products = () => {
     }, [search, category]);
 
     return (
-        <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="page-shell">
+            <Navbar />
 
-            <h1 className="text-3xl font-bold mb-8">
-                Products
-            </h1>
-
-            {/* Search + Filter */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
-
-                <input
-                    type="text"
-                    placeholder="Search products..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="flex-1 border rounded-md px-4 py-2"
-                />
-
-                <select
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="border rounded-md px-4 py-2"
-                >
-                    <option value="">All Categories</option>
-                    <option value="Electronics">Electronics</option>
-                    <option value="Fashion">Fashion</option>
-                    <option value="Books">Books</option>
-                    <option value="Home">Home</option>
-                </select>
-
-            </div>
-
-            {/* Loading */}
-            {loading && (
-                <div className="flex justify-center items-center min-h-[40vh]">
-                    <p className="text-lg">Loading products...</p>
+            <main className="products-page">
+                <div className="section-heading">
+                    <div className="eyebrow">Shop by need</div>
+                    <h1>Products</h1>
+                    <p>Browse essentials and standout picks for every day.</p>
                 </div>
-            )}
 
-            {/* Error */}
-            {!loading && error && (
-                <div className="flex justify-center items-center min-h-[40vh]">
-                    <p className="text-red-500">{error}</p>
+                <div className="products-toolbar">
+                    <input
+                        type="text"
+                        placeholder="Search products..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="search-field"
+                    />
+
+                    <select
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        className="filter-select"
+                    >
+                        <option value="">All Categories</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Fashion">Fashion</option>
+                        <option value="Books">Books</option>
+                        <option value="Home">Home</option>
+                    </select>
                 </div>
-            )}
 
-            {/* Empty */}
-            {!loading && !error && products.length === 0 && (
-                <div className="flex justify-center items-center min-h-[40vh]">
-                    <p className="text-lg">No products found.</p>
-                </div>
-            )}
+                {loading && (
+                    <div className="state-panel">
+                        <p>Loading products...</p>
+                    </div>
+                )}
 
-            {/* Products */}
-            {!loading && !error && products.length > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {products.map((product) => (
-                        <ProductCard
-                            key={product._id}
-                            product={product}
-                        />
-                    ))}
-                </div>
-            )}
+                {!loading && error && (
+                    <div className="state-panel error-panel">
+                        <p>{error}</p>
+                    </div>
+                )}
 
+                {!loading && !error && products.length === 0 && (
+                    <div className="state-panel">
+                        <p>No products found.</p>
+                    </div>
+                )}
+
+                {!loading && !error && products.length > 0 && (
+                    <div className="product-grid">
+                        {products.map((product) => (
+                            <ProductCard
+                                key={product._id}
+                                product={product}
+                            />
+                        ))}
+                    </div>
+                )}
+            </main>
         </div>
     );
 };

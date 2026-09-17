@@ -196,30 +196,78 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 22px clamp(24px, 6vw, 88px);
+  gap: 16px;
+  padding: 18px clamp(24px, 6vw, 88px);
   border-bottom: 1px solid var(--line);
-  background: rgba(255, 248, 239, .86);
+  background: rgba(255, 248, 239, .94);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 26px;
 }
 
 .topbar .brand {
   color: var(--ink);
+  cursor: pointer;
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -.05em;
+}
+
+.topbar .brand span {
+  color: var(--coral);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-link {
+  padding: 10px 14px;
+  border-radius: 999px;
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 180ms ease;
+}
+
+.nav-link:hover {
+  background: rgba(224, 91, 67, .08);
+  color: var(--ink);
+}
+
+.nav-link.active {
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: 0 10px 18px rgba(39, 35, 32, 0.12);
 }
 
 .logout-button {
   border: 1px solid var(--line);
-  border-radius: 4px;
-  padding: 10px 16px;
+  border-radius: 999px;
+  padding: 10px 18px;
   color: var(--ink);
   background: transparent;
   font: inherit;
   font-size: 13px;
   font-weight: 800;
   cursor: pointer;
+  transition: all 180ms ease;
 }
 
 .logout-button:hover {
   border-color: var(--ink);
   background: white;
+  transform: translateY(-1px);
 }
 
 .dashboard {
@@ -311,6 +359,265 @@
 .detail-row strong {
   text-align: right;
   overflow-wrap: anywhere;
+}
+
+.profile-actions {
+  margin-top: 28px;
+}
+
+.profile-button {
+  width: auto;
+}
+
+.password-form {
+  display: grid;
+  gap: 18px;
+  margin-top: 26px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.password-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.secondary-button {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 13px 16px;
+  color: var(--ink);
+  background: white;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.success-message {
+  margin: 0;
+  padding: 12px 14px;
+  border-left: 3px solid #1f8a5a;
+  color: #1d6b46;
+  background: #edfdf4;
+  font-size: 14px;
+}
+
+.settings-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(36px, 5vw, 72px) clamp(24px, 6vw, 88px) 64px;
+}
+
+.settings-header {
+  max-width: 620px;
+  margin-bottom: 30px;
+}
+
+.settings-header h1 {
+  margin: 12px 0 10px;
+  font-family: var(--display);
+  font-size: clamp(42px, 5vw, 64px);
+  line-height: .95;
+  letter-spacing: -.06em;
+}
+
+.settings-header p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 17px;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.settings-card {
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 18px 50px rgba(39, 35, 32, 0.05);
+}
+
+.settings-card h2 {
+  margin: 0 0 22px;
+  font-family: var(--display);
+  font-size: 30px;
+  letter-spacing: -.04em;
+}
+
+.products-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(36px, 5vw, 72px) clamp(24px, 6vw, 88px) 64px;
+}
+
+.section-heading {
+  max-width: 620px;
+  margin-bottom: 30px;
+}
+
+.section-heading h1 {
+  margin: 12px 0 10px;
+  font-family: var(--display);
+  font-size: clamp(42px, 5vw, 64px);
+  line-height: .95;
+  letter-spacing: -.06em;
+}
+
+.section-heading p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 17px;
+}
+
+.products-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.search-field,
+.filter-select {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--ink);
+  font: inherit;
+  padding: 14px 16px;
+  transition: border-color 180ms, box-shadow 180ms;
+}
+
+.search-field {
+  flex: 1 1 280px;
+}
+
+.filter-select {
+  width: min(220px, 100%);
+}
+
+.search-field:focus,
+.filter-select:focus {
+  outline: none;
+  border-color: var(--coral);
+  box-shadow: 0 0 0 3px rgba(224, 91, 67, .14);
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 22px;
+}
+
+.product-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 12px 25px rgba(39, 35, 32, 0.06);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.product-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 30px rgba(39, 35, 32, 0.1);
+}
+
+.product-image-wrap {
+  width: 100%;
+  height: 240px;
+  background: #f4efe9;
+  overflow: hidden;
+}
+
+.product-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.product-card-body {
+  padding: 18px 18px 20px;
+}
+
+.product-card-body p,
+.product-card-body h2 {
+  margin-top: 0;
+}
+
+.product-category {
+  margin-bottom: 10px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.product-name {
+  margin-bottom: 10px;
+  color: #1f1b1a;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.product-price {
+  margin-bottom: 10px;
+  color: #1f1b1a;
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -.04em;
+}
+
+.product-stock {
+  margin-bottom: 16px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.product-card-button {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: var(--ink);
+  color: white;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.product-card-button:hover {
+  background: #3a312d;
+  transform: translateY(-1px);
+}
+
+.state-panel {
+  display: grid;
+  place-items: center;
+  min-height: 190px;
+  border: 1px dashed var(--line);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.52);
+  color: var(--muted);
+  font-size: 17px;
+}
+
+.error-panel {
+  border-color: rgba(224, 91, 67, .5);
+  background: rgba(224, 91, 67, .05);
+  color: #9d3c2f;
 }
 
 @media (max-width: 720px) {

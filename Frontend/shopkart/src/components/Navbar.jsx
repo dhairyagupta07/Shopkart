@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import api from "../services/api";
 
 function Navbar() {
@@ -16,12 +16,30 @@ function Navbar() {
 
     return (
         <nav className="topbar">
-            <div className="brand">ShopKart<span style={{ color: "var(--coral)" }}>.</span></div>
+            <div className="brand-group">
+                <div className="brand" onClick={() => navigate("/home")} role="button" tabIndex={0} onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        navigate("/home");
+                    }
+                }}>
+                    ShopKart<span>.</span>
+                </div>
 
-            <button
-                onClick={handleLogout}
-                className="logout-button"
-            >
+                <div className="nav-links" aria-label="Main navigation">
+                    <NavLink to="/home" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
+                        Home
+                    </NavLink>
+                    <NavLink to="/products" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
+                        Products
+                    </NavLink>
+                    <NavLink to="/settings" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
+                        Settings
+                    </NavLink>
+                </div>
+            </div>
+
+            <button onClick={handleLogout} className="logout-button">
                 Logout
             </button>
         </nav>

@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
 import Products from "./pages/Products";
+import Settings from "./pages/Settings";
 
 function App() {
     return (
@@ -20,6 +21,8 @@ function App() {
                 <Route path="/home" element={<Home />} />
 
                 <Route path="/products" element={<Products />} />
+
+                <Route path="/settings" element={<Settings />} />
 
                 <Route path="/products/:id" element={<ProductDetails />} />
 

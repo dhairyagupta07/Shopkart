@@ -38,12 +38,14 @@ function Home() {
                     <h1>Welcome, {user.fullName}.</h1>
                     <p>Welcome to your ShopKart account.</p>
                 </div>
+
                 <div className="profile-panel">
                     <section className="profile-intro">
                         <div className="avatar">{user.fullName.charAt(0).toUpperCase()}</div>
                         <h2>Your profile</h2>
                         <p>Your ShopKart details, all in one place.</p>
                     </section>
+
                     <section className="profile-details">
                         <h3>Account details</h3>
                         <div className="detail-row"><span>Name</span><strong>{user.fullName}</strong></div>
