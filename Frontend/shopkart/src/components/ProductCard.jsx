@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import api from "../services/api";
+import { useWishlist } from "../context/useWishlist";
 
 const ProductCard = ({ product }) => {
     const navigate = useNavigate();
     const { addToCart } = useCart();
+    const { addToWishlist } = useWishlist();
 
     const [saving, setSaving] = useState(false);
     const [wishlistError, setWishlistError] = useState("");
@@ -20,7 +21,7 @@ const ProductCard = ({ product }) => {
             setSaving(true);
             setWishlistError("");
 
-            await api.post(`/wishlist/${product._id}`);
+            await addToWishlist(product._id);
             setAdded(true);
         } catch (error) {
             console.error(error);

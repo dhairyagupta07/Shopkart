@@ -1,29 +1,17 @@
-import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/useWishlist";
 import api from "../services/api";
 
 function Navbar() {
     const navigate = useNavigate();
     const { cartCount } = useCart();
-    const [wishlistCount, setWishlistCount] = useState(0);
-
-    useEffect(() => {
-        const fetchWishlistCount = async () => {
-            try {
-                const response = await api.get("/wishlist");
-                setWishlistCount(response.data.count ?? 0);
-            } catch {
-                setWishlistCount(0);
-            }
-        };
-
-        fetchWishlistCount();
-    }, []);
+    const { wishlistCount, clearWishlist } = useWishlist();
 
     const handleLogout = async () => {
         try {
             await api.post("/customers/logout");
+            clearWishlist();
             navigate("/login");
         } catch {
             console.error("Logout failed");

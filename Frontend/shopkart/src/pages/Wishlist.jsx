@@ -1,23 +1,21 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import api from "../services/api";
+import { useWishlist } from "../context/useWishlist";
 
 function Wishlist() {
     const navigate = useNavigate();
+    const { refreshWishlist, removeFromWishlist } = useWishlist();
 
     const [wishlist, setWishlist] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-    const fetchWishlist = async () => {
+    const fetchWishlist = useCallback(async () => {
         try {
-            setLoading(true);
+            const response = await refreshWishlist();
+            setWishlist(response.wishlist);
             setError("");
-
-            const response = await api.get("/wishlist");
-
-            setWishlist(response.data.wishlist);
 
         } catch (error) {
             console.error(error);
@@ -27,15 +25,44 @@ function Wishlist() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [refreshWishlist]);
 
     useEffect(() => {
+        let active = true;
+
+        refreshWishlist()
+            .then((response) => {
+                if (active) {
+                    setWishlist(response.wishlist);
+                    setError("");
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                if (active) {
+                    setError("Unable to load wishlist.");
+                }
+            })
+            .finally(() => {
+                if (active) {
+                    setLoading(false);
+                }
+            });
+
+        return () => {
+            active = false;
+        };
+    }, [refreshWishlist]);
+
+    const retryFetchWishlist = () => {
+        setLoading(true);
+        setError("");
         fetchWishlist();
-    }, []);
+    };
 
     const handleRemove = async (productId) => {
         try {
-            await api.delete(`/wishlist/${productId}`);
+            await removeFromWishlist(productId);
 
             setWishlist((currentWishlist) =>
                 currentWishlist.filter(
@@ -89,7 +116,7 @@ function Wishlist() {
                             <p>{error}</p>
 
                             <button
-                                onClick={fetchWishlist}
+                                onClick={retryFetchWishlist}
                                 className="primary-button"
                             >
                                 Try Again

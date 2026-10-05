@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import { useWishlist } from "../context/useWishlist";
 
 function Login() {
     const navigate = useNavigate();
+    const { refreshWishlist } = useWishlist();
 
     const [formData, setFormData] = useState({
         email: "",
@@ -34,6 +36,11 @@ function Login() {
             setLoading(true);
 
             await api.post("/customers/login", formData);
+            try {
+                await refreshWishlist();
+            } catch (refreshError) {
+                console.error("Failed to refresh wishlist after login:", refreshError);
+            }
 
             navigate("/home");
         } catch {
