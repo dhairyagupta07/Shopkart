@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import userRoutes from "./routes/customer.routes.js"
 import productRoutes from "./routes/product.routes.js"
+import wishlistRoutes from "./routes/wishlist.routes.js"
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 
@@ -27,6 +28,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use('/customers', userRoutes)
 app.use('/products', productRoutes)
+app.use('/wishlist', wishlistRoutes)
 
 app.listen(PORT, ()=> {
     console.log(`Server started on port ${PORT}`);
