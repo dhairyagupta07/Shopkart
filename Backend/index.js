@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import userRoutes from "./routes/customer.routes.js"
 import productRoutes from "./routes/product.routes.js"
 import wishlistRoutes from "./routes/wishlist.routes.js"
+import cartRoutes from "./routes/cart.routes.js"
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 
@@ -29,6 +30,7 @@ app.use(cookieParser())
 app.use('/customers', userRoutes)
 app.use('/products', productRoutes)
 app.use('/wishlist', wishlistRoutes)
+app.use('/cart', cartRoutes)
 
 app.listen(PORT, ()=> {
     console.log(`Server started on port ${PORT}`);
