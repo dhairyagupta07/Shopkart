@@ -4,7 +4,6 @@ import Product from "../models/product.model.js";
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
-// POST /wishlist/:productId
 export const addToWishlist = async (req, res) => {
     try {
         const { productId } = req.params;
@@ -60,7 +59,6 @@ export const addToWishlist = async (req, res) => {
     }
 };
 
-// GET /wishlist
 export const getWishlist = async (req, res) => {
     try {
         const user = await Customer.findById(req.user._id).populate({
@@ -90,7 +88,6 @@ export const getWishlist = async (req, res) => {
     }
 };
 
-// DELETE /wishlist/:productId
 export const removeFromWishlist = async (req, res) => {
     try {
         const { productId } = req.params;
