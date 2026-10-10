@@ -8,6 +8,9 @@ import Wishlist from "./pages/Wishlist";
 import Products from "./pages/Products";
 import Settings from "./pages/Settings";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+import Orders from "./pages/Orders";
+import OrderSuccess from "./pages/OrderSuccess";
 import { CartProvider } from "./context/CartContext";
 import WishlistProvider from "./context/WishlistContext";
 
@@ -26,6 +29,9 @@ function App() {
                         <Route path="/products/:id" element={<ProductDetails />} />
                         <Route path="/wishlist" element={<Wishlist />} />
                         <Route path="/cart" element={<Cart />} />
+                        <Route path="/checkout" element={<Checkout />} />
+                        <Route path="/orders" element={<Orders />} />
+                        <Route path="/order-success/:id" element={<OrderSuccess />} />
                     </Routes>
                 </BrowserRouter>
             </WishlistProvider>

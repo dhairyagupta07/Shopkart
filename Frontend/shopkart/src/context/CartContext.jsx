@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable react-hooks/set-state-in-effect */
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import api from "../services/api";
 
@@ -42,8 +44,13 @@ export const CartProvider = ({ children }) => {
         return response.data;
     };
 
+    const clearCart = async () => {
+        setCartItems([]);
+        return true;
+    };
+
     useEffect(() => {
-        fetchCart();
+        void fetchCart();
     }, []);
 
     const cartCount = useMemo(
@@ -70,6 +77,7 @@ export const CartProvider = ({ children }) => {
                 addToCart,
                 updateQuantity,
                 removeFromCart,
+                clearCart,
                 cartCount,
                 subtotal,
             }}

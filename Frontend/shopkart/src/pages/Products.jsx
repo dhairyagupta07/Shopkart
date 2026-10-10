@@ -10,29 +10,41 @@ const Products = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-    const fetchProducts = async () => {
-        try {
-            setLoading(true);
-            setError("");
-
-            const response = await api.get("/products", {
-                params: {
-                    search: search || undefined,
-                    category: category || undefined
-                }
-            });
-
-            setProducts(response.data.products);
-        } catch (error) {
-            console.error(error);
-            setError("Something went wrong while loading products.");
-        } finally {
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
-        fetchProducts();
+        let ignore = false;
+
+        const loadProducts = async () => {
+            try {
+                setLoading(true);
+                setError("");
+
+                const response = await api.get("/products", {
+                    params: {
+                        search: search || undefined,
+                        category: category || undefined,
+                    },
+                });
+
+                if (!ignore) {
+                    setProducts(response.data.products);
+                }
+            } catch (error) {
+                console.error(error);
+                if (!ignore) {
+                    setError("Something went wrong while loading products.");
+                }
+            } finally {
+                if (!ignore) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        void loadProducts();
+
+        return () => {
+            ignore = true;
+        };
     }, [search, category]);
 
     return (

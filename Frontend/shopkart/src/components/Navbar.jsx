@@ -62,6 +62,12 @@ function Navbar() {
                         Cart{cartCount > 0 ? ` (${cartCount})` : ""}
                     </NavLink>
                     <NavLink
+                        to="/orders"
+                        className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+                    >
+                        My Orders
+                    </NavLink>
+                    <NavLink
                         to="/settings"
                         className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
                     >
